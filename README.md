@@ -1,3 +1,5 @@
+https://game-enter.firebaseapp.com/
+
 # vue-enter
 
 > A Vue.js project
