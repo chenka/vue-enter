@@ -1,3 +1,6 @@
+Press Enter Run as Fast as You Can.
+https://game-enter.firebaseapp.com/
+
 # vue-enter
 
 > A Vue.js project
