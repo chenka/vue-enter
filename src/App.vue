@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    {{users.slice(0, 5)}}
     <div id="welcome" v-if="state == 'welcome'">
       <h1>What is your name?</h1>
       <input type="text" v-model="name" @keyup.enter="countdown">
-      <leaderboard :users="sortedUsers"></leaderboard>
+      <leaderboard v-if="sortedUsers.length > 0" :users="sortedUsers"></leaderboard>
     </div>
     <div id="countdown" v-else-if="state == 'countdown'">
       <h1>{{ counter }}</h1>
+      <img src="http://media.tumblr.com/tumblr_ly2jgyM1Su1r00g3i.gif">
     </div>
     <div id="game" v-else-if="state == 'play'">
       <h1>Press Enter! - {{ countdownPlay }}</h1>
       <h2>{{ count }}</h2>
-      <div id="power" :style="{ height: height + 'px' }"></div>
+      <div id="power" :style="{ background: colorBar, height: height + 'px' }"></div>
     </div>
     <div id="game" v-else>
       <h1>Game Over</h1>
@@ -45,7 +45,7 @@ export default {
     leaderboard
   },
   firebase: {
-    users: db.ref('users').orderByChild('score')
+    users: db.ref('users')
   },
   data() {
     return {
@@ -56,22 +56,21 @@ export default {
       counter: COUNTER,
       countdownPlay: COUNTDOWN_PLAY,
       sortedUsers: [],
+      colorBar: 'red'
     }
   },
   methods: {
     enter() {
       this.height += 3
       this.count += 1
-      // if (this.count % 2 == 0) {
-      //   document.body.style.backgroundColor = 'brown'
-      // } else {
-      //   document.body.style.backgroundColor = 'coral'
-      // }
+      if (this.count % 2 == 0) {
+        this.colorBar = 'red'
+      } else {
+        this.colorBar = 'blue'
+      }
     },
     countdown() {
-
       this.state = 'countdown'
-      // this.state = 'gameover'
       const count = setInterval(() => {
         this.counter -= 1
         this.countdownText = this.counter
@@ -108,6 +107,7 @@ export default {
     }
   },
   created() {
+    // this.sortedUsers = [{name:'A', score:10}]
     db.ref('users').orderByChild('score').on('value', (value) => {
       const values = value.exportVal()
       const t = []
@@ -116,10 +116,10 @@ export default {
           var element = values[key];
           t.push(element)
         }
-      
       }
       this.sortedUsers = t.sort((a,b) => b.score - a.score)
     })
+
     window.addEventListener('keyup', (event) => {
       if (event.keyCode == 13 && this.state == 'play') {
         this.enter()
@@ -157,7 +157,6 @@ h1 {
 
 #power {
   width: 200px;
-  background: red;
   margin: 0 auto;
   /*-webkit-transition: height 100ms linear;
     -moz-transition: height 100ms linear;
