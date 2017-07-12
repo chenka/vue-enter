@@ -1,5 +1,7 @@
 Press Enter Run as Fast as You Can.
-https://game-enter.firebaseapp.com/
+
+https://chenka.github.io/vue-enter/ Edit
+
 
 # vue-enter
 
