@@ -1,6 +1,6 @@
 Press Enter Run as Fast as You Can.
 
-https://chenka.github.io/vue-enter/ Edit
+https://chenka.github.io/vue-enter/
 
 
 # vue-enter
